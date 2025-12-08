@@ -1,0 +1,19 @@
+{
+  "name": "shopify-rss-feed-gchat",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --hot server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "hono": "^4.10.7",
+    "rss-parser": "^3.13.0"
+  }
+}
