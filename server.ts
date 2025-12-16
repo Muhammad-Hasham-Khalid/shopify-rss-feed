@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { handleRSSFeed } from "./rss-handler";
+import { handleRSSFeed } from "./rss-handler.js";
 
 const app = new Hono();
 
