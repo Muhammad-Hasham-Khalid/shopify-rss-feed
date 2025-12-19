@@ -1,10 +1,7 @@
 import Parser from "rss-parser";
-import fs from "node:fs/promises";
-import path from "node:path";
 
 const parser = new Parser();
 const RSS_FEED_URL = "https://shopify.dev/changelog/feed.xml";
-const STATE_FILE = path.join(process.cwd(), ".rss-state.json");
 const PLACEHOLDER_IMAGE =
   "https://lh6.googleusercontent.com/proxy/Fc6uVmi69MN5KRXYUqAArKGO3uKYuVlkwBGJiiawS-CKHZgh6Tn1jsoZjgIYr3YWuGwpLTjBgv3wvBU0iCEJ8fgWltsAgSkVFpLZDrRMX0ToJWoeXOpXzpRNzFUcI1WWMnSsdL3KqWHfJH4Of56CtiARx8oYRs6aQKkEFD8P1dukJc71FGvq7k29eR8wnA";
 
@@ -20,22 +17,8 @@ function getYesterdayDate(): string {
 }
 
 async function getProcessedState(): Promise<ProcessedState> {
-  try {
-    const data = await fs.readFile(STATE_FILE, "utf-8");
-    const parsed = JSON.parse(data);
-    // If we have a valid date, use it; otherwise use yesterday
-    if (parsed.lastProcessedDate) {
-      return { lastProcessedDate: parsed.lastProcessedDate };
-    }
-  } catch (error) {
-    // File doesn't exist or is invalid
-  }
   // Initialize with yesterday's date
   return { lastProcessedDate: getYesterdayDate() };
-}
-
-async function saveProcessedState(state: ProcessedState): Promise<void> {
-  await fs.writeFile(STATE_FILE, JSON.stringify(state, null, 2));
 }
 
 export async function handleRSSFeed() {
@@ -96,13 +79,6 @@ async function updateProcessedState(
         mostRecentDate = date;
       }
     }
-  }
-
-  if (mostRecentDate) {
-    const state: ProcessedState = {
-      lastProcessedDate: mostRecentDate.toISOString(),
-    };
-    await saveProcessedState(state);
   }
 }
 
