@@ -51,9 +51,7 @@ export async function handleRSSFeed() {
 }
 
 async function getRSSFeed() {
-  const feed = await parser.parseURL(RSS_FEED_URL);
-  await fs.writeFile("feed.json", JSON.stringify(feed, null, 2));
-  return feed;
+  return await parser.parseURL(RSS_FEED_URL);
 }
 
 async function filterNewItems(
